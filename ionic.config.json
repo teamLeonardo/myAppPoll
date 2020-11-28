@@ -1,0 +1,7 @@
+{
+  "name": "myAppPoll",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
