@@ -1,15 +1,15 @@
 import { IonActionSheet, IonAlert, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonFab, IonFabButton, IonGrid, IonIcon, IonPage, IonRow } from "@ionic/react"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
 
-import { add, caretForwardCircle, close, flash, heart, share, trash } from 'ionicons/icons';
+import { add, logOut, caretForwardCircle, close, heart, share, trash } from 'ionicons/icons';
 import { useHistory } from "react-router";
 import { appFormContext } from "../../context/AppForms";
 import { newToast } from "../../components/newToast";
+import { auth } from "../../services/firebase";
 
 export const Home: React.FC = () => {
 
     const {
-        getList,
         create,
         list,
         Delete
@@ -49,9 +49,6 @@ export const Home: React.FC = () => {
         setShowAlert1(false)
     }
 
-    useEffect(() => {
-        getList();
-    }, [getList, HandleDelete])
 
     return (
         <IonPage>
@@ -143,6 +140,13 @@ export const Home: React.FC = () => {
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
                     <IonFabButton onClick={() => { !fetch && HandleCreate() }}>
                         <IonIcon icon={add} />
+                    </IonFabButton>
+                </IonFab>
+                <IonFab vertical="bottom" horizontal="start" slot="fixed">
+                    <IonFabButton onClick={() => { 
+                        auth.signOut()
+                     }}>
+                        <IonIcon icon={logOut} />
                     </IonFabButton>
                 </IonFab>
             </IonContent>

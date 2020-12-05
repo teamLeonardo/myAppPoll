@@ -6,13 +6,9 @@ interface IAppFromContext {
     create(): Promise<string>
     Delete: (id: string) => Promise<boolean>
     list: any[]
-    listQuestion: any[]
     getList: Function
-    getListQuestion: Function
-    addQuestion: Function
     updateForm: Function
-    clearQuestion: Function
-    validate: Function
+    validate: (id: string) => Promise<boolean>
 }
 
 export const appFormContext = createContext({} as IAppFromContext)
@@ -21,41 +17,30 @@ class AppFormProvider extends Component {
 
     state = {
         list: [],
-        listQuestion: []
+    }
+
+
+    async componentDidMount() {
+
+        let id = this.context.user.idUser;
+        db.collection("form").where("id_user", "==", id).onSnapshot((snap) => {
+            let newArray = snap.docs.map(doc => ({ _id: doc.id, ...doc.data() }))
+            this.setState({ list: newArray })
+        })
 
     }
+
 
     getList = async (id_form?: string) => {
         try {
 
-            let dataR: any[] = [];
-            let id = this.context.user.idUser;
-            if (id_form) {
-                return (await db.collection("form").doc(id_form).get()).data()
-            }
-            (await db.collection("form").where("id_user", "==", id).get())
-                .forEach(snap => {
-                    const data = snap.data()
-                    dataR.push({ _id: snap.id, ...data })
-                });
-            this.setState({ list: dataR })
+            console.log("get list  id_ form " + id_form);
+            return (await db.collection("form").doc(id_form).get()).data()
         } catch (error) {
             console.log(error);
         }
     }
-    getListQuestion = async (id_form: string) => {
-        try {
-            let dataR: any[] = [];
-            (await db.collection("question").where("id_form", "==", id_form).get())
-                .forEach(snap => {
-                    const data = snap.data()
-                    dataR.push({ id: snap.id, ...data })
-                });
-            this.setState({ listQuestion: dataR })
-        } catch (error) {
-            console.log(error);
-        }
-    }
+
     create = async () => {
 
         let id_user = this.context.user.idUser;
@@ -63,12 +48,6 @@ class AppFormProvider extends Component {
         return id;
     }
 
-    addQuestion = async (payload: any) => {
-
-        let { id } = await db.collection("question").add({ ...payload, time: Date.now() })
-
-        this.setState({ listQuestion: [...this.state.listQuestion, { ...payload, id, time: Date.now() }] })
-    }
 
     updateForm = async (id_form: string, payload: any) => {
         try {
@@ -82,28 +61,26 @@ class AppFormProvider extends Component {
     Delete = async (id_form: string) => {
         try {
             await db.collection("form").doc(id_form).delete()
+
             return true
         } catch (error) {
             return false
         }
     }
 
-    clearQuestion = () => this.setState({ listQuestion: [] })
 
-
-    validate = (id_form: string, call: Function) => {
+    validate = async (id_form: string) => {
 
         let id = this.context.user.idUser;
 
-        db.collection("form").where("id_user", "==", id).get().then(docsnap => {
+        let { id_user }: any = (await db.collection("form").doc(id_form).get()).data()
 
-            docsnap.forEach((snap) => {
-                if (snap.id === id_form) {
-                    call(true)
-                }
-            })
+        if (id_user === id) {
+            return true
+        } else {
+            return false
+        }
 
-        })
     }
 
 
@@ -117,10 +94,7 @@ class AppFormProvider extends Component {
                     create: this.create,
                     Delete: this.Delete,
                     updateForm: this.updateForm,
-                    addQuestion: this.addQuestion,
                     validate: this.validate,
-                    clearQuestion: this.clearQuestion,
-                    getListQuestion: this.getListQuestion,
                 }}
             >
                 {this.props.children}

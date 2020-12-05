@@ -1,4 +1,8 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+
+import "firebase/auth";
+import "firebase/firestore"
+
 export const firebaseConfig = {
     apiKey: "AIzaSyAJJRMs6ZUvNwy9vsOqlQFMqZkeQ-our-c",
     authDomain: "poll-987fd.firebaseapp.com",
@@ -9,7 +13,6 @@ export const firebaseConfig = {
     appId: "1:108527827297:web:160ff8a0a6e1a03304ad20",
     measurementId: "G-WSF9PS6WV7"
 };
-
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
