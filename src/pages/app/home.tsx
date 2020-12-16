@@ -1,4 +1,4 @@
-import { IonActionSheet, IonAlert, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonFab, IonFabButton, IonGrid, IonIcon, IonPage, IonRow } from "@ionic/react"
+import { IonActionSheet, IonAlert, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react"
 import React, { useContext, useState } from "react"
 
 import { add, logOut, caretForwardCircle, close, heart, share, trash } from 'ionicons/icons';
@@ -52,7 +52,15 @@ export const Home: React.FC = () => {
 
     return (
         <IonPage>
+            <IonHeader>
+                <IonToolbar >
+                    <IonTitle>
+                        Lista de tus formulario                        
+                    </IonTitle>
+                </IonToolbar>
+            </IonHeader>
             <IonContent fullscreen className="ion-padding" >
+
                 <IonGrid>
                     <IonRow className="ion-justify-content-space-arrow ion-padding ">
                         {
@@ -143,9 +151,9 @@ export const Home: React.FC = () => {
                     </IonFabButton>
                 </IonFab>
                 <IonFab vertical="bottom" horizontal="start" slot="fixed">
-                    <IonFabButton onClick={() => { 
+                    <IonFabButton onClick={() => {
                         auth.signOut()
-                     }}>
+                    }}>
                         <IonIcon icon={logOut} />
                     </IonFabButton>
                 </IonFab>

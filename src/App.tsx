@@ -28,6 +28,7 @@ import Root from './pages/segurity/root';
 import { Login } from './pages/login/login';
 import { AppMain } from './pages/app/app';
 import { Register } from './pages/register/register';
+import { ShareFormulari } from './pages/share/ShareFormulari';
 
 const App: React.FC = () => (
   <AuthContextProvider>
@@ -35,6 +36,7 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonRouterOutlet>
           <SegurityRouter path="/app" component={AppMain} type="private" exact={false} />
+          <SegurityRouter path="/share/id" component={ShareFormulari}  exact={true} />
           <SegurityRouter path="/home" component={Home} type="public" exact={true} />
           <SegurityRouter path="/login" component={Login} type="public" exact={true} />
           <SegurityRouter path="/register" component={Register} type="public" exact={true} />

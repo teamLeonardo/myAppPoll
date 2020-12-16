@@ -9,6 +9,7 @@ import { IonModal } from "@ionic/react"
 export const AppMain: React.FC = () => {
 
     const { push } = useHistory()
+    
     return (
         <AppFormProvider>
             <Route
