@@ -29,6 +29,7 @@ import { Login } from './pages/login/login';
 import { AppMain } from './pages/app/app';
 import { Register } from './pages/register/register';
 import { ShareFormulari } from './pages/share/ShareFormulari';
+import { PageError } from './pages/error/PageError';
 
 const App: React.FC = () => (
   <AuthContextProvider>
@@ -36,8 +37,9 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonRouterOutlet>
           <SegurityRouter path="/app" component={AppMain} type="private" exact={false} />
-          <SegurityRouter path="/share/id" component={ShareFormulari}  exact={true} />
-          <SegurityRouter path="/home" component={Home} type="public" exact={true} />
+          <SegurityRouter path="/share/:id" render={ShareFormulari}  exact={true} />
+          <SegurityRouter path="/pageError" component={PageError} exact={true} />
+          <SegurityRouter path="/home" component={Home} type="public" exact={false} />
           <SegurityRouter path="/login" component={Login} type="public" exact={true} />
           <SegurityRouter path="/register" component={Register} type="public" exact={true} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />

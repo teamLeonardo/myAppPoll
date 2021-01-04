@@ -25,21 +25,21 @@ export const Home: React.FC = () => {
 
     const { push } = useHistory()
 
-    const HandleCreate = () => {
-        setFetch(true)
-
-        create().then((respuesta: string) => {
-            setFetch(false)
+    const HandleCreate = async () => {
+        try {
+            setFetch(true)
+            let respuesta = await create()
             push("/app/modify/" + respuesta);
-        }).catch((err) => {
-            setFetch(false)
-            newToast(err)
-        })
+        } catch (error) {
+            newToast(error)
+        }
+        setFetch(false)
     }
 
     const HandleUpdate = async () => {
         setTimeout(() => {
             push("/app/modify/" + IdCurrent)
+            
         }, 1000);
     }
 
@@ -47,15 +47,30 @@ export const Home: React.FC = () => {
 
         await Delete(IdCurrent);
         setShowAlert1(false)
+        
     }
 
+    const copiarAlPortapapeles = () => {
+        try {
+            let aux = document.createElement("input");
+            let { protocol , hostname , port} = window.location;
+            aux.setAttribute("value", `${protocol}://${hostname}:${port}/share/${IdCurrent}` );
+            document.body.appendChild(aux);
+            aux.select();
+            document.execCommand("copy");
+            document.body.removeChild(aux);
+            newToast("El link fue copiado al portapapeles");
+        } catch (error) {
+            newToast(error);
+        }
+    }
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar >
                     <IonTitle>
-                        Lista de tus formulario                        
+                        Lista de tus formulario
                     </IonTitle>
                 </IonToolbar>
             </IonHeader>
@@ -66,7 +81,7 @@ export const Home: React.FC = () => {
                         {
                             list.map((_, index) => {
                                 return (
-                                    <IonCol sizeMd="2" key={index}>
+                                    <IonCol sizeMd="2" sizeXs="12" key={index}>
                                         <IonCard >
                                             {/* <div ></div> */}
                                             <IonFab vertical="top" horizontal="end" slot="absolute">
@@ -80,7 +95,7 @@ export const Home: React.FC = () => {
                                                     setIdCurrent(_._id);
                                                 }}>
                                                 <IonCardTitle>{_.name}</IonCardTitle>
-                                                <IonCardSubtitle> </IonCardSubtitle>
+                                                <IonCardSubtitle>F.Entregadas {_.nFomsEnds} </IonCardSubtitle>
                                             </IonCardHeader>
                                         </IonCard>
                                     </IonCol>
@@ -119,7 +134,8 @@ export const Home: React.FC = () => {
                             text: 'Share',
                             icon: share,
                             handler: () => {
-                                console.log('Share clicked');
+                                copiarAlPortapapeles();
+                                // push("/share/" + IdCurrent);
                             }
                         },
                         {

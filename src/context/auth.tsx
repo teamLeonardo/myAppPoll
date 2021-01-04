@@ -30,6 +30,7 @@ export default class AuthContextProvider extends React.Component {
         authFirebase: false,
         isLoggedIn: false,
         user: null,
+        pageErrorMess: undefined
     }
     userWatchUnSub: any = undefined;
 
@@ -57,6 +58,10 @@ export default class AuthContextProvider extends React.Component {
         });
     }
 
+    setMessError = (newMss: string) => {
+        this.setState({ pageErrorMess: newMss })
+    }
+
     componentWillUnmount() {
 
         if (this.userWatchUnSub) {
@@ -72,6 +77,7 @@ export default class AuthContextProvider extends React.Component {
             <AuthContext.Provider
                 value={{
                     ...this.state,
+                    setMessError:this.setMessError
                 }}
             >
                 {this.props.children}

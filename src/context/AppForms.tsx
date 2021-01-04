@@ -27,9 +27,14 @@ class AppFormProvider extends Component {
             let newArray = snap.docs.map(doc => ({ _id: doc.id, ...doc.data() }))
             this.setState({ list: newArray })
         })
+        console.log((await db.collection("form").doc("kXxPsAsYqkmLm8QRAFxt").get()).data());
+
+        // (await db.collection("form").doc(id_form).get()).data()
+        // db.collection("form").doc("qri3khAj0hVYjkDexdrb55lzy3i2").
 
     }
 
+    
 
     getList = async (id_form?: string) => {
         try {
@@ -44,7 +49,7 @@ class AppFormProvider extends Component {
     create = async () => {
 
         let id_user = this.context.user.idUser;
-        let { id } = await db.collection("form").add({ id_user, name: "name form example", nFomsEnds: 0 })
+        let { id } = await db.collection("form").add({ id_user, name: "name form example", nFomsEnds: 0, public: true })
         return id;
     }
 
@@ -75,6 +80,10 @@ class AppFormProvider extends Component {
 
         let { id_user }: any = (await db.collection("form").doc(id_form).get()).data()
 
+        db.collection("form").doc("qri3khAj0hVYjkDexdrb55lzy3i2").get().then((res) => {
+            console.log(res);
+
+        })
         if (id_user === id) {
             return true
         } else {

@@ -30,8 +30,6 @@ class QuestionProvider extends PureComponent<any> {
 
             let id_form: string = this.props.match.params.id;
             let newDataForm = (await db.collection("form").doc(id_form).get()).data();
-            console.log(newDataForm);
-
             this.setState({ dataForm: newDataForm, initial: true })
             db.collection("question")
                 .where("id_form", "==", id_form)
