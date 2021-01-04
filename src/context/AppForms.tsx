@@ -34,7 +34,7 @@ class AppFormProvider extends Component {
 
     }
 
-    
+
 
     getList = async (id_form?: string) => {
         try {
@@ -66,7 +66,11 @@ class AppFormProvider extends Component {
     Delete = async (id_form: string) => {
         try {
             await db.collection("form").doc(id_form).delete()
-
+            db.collection("question").where("id_form", "==", id_form).get().then((snat) => {
+                snat.docs.map((doc) => {
+                    doc.ref.delete()
+                })
+            })
             return true
         } catch (error) {
             return false
@@ -80,10 +84,6 @@ class AppFormProvider extends Component {
 
         let { id_user }: any = (await db.collection("form").doc(id_form).get()).data()
 
-        db.collection("form").doc("qri3khAj0hVYjkDexdrb55lzy3i2").get().then((res) => {
-            console.log(res);
-
-        })
         if (id_user === id) {
             return true
         } else {

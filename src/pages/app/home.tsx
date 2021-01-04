@@ -83,15 +83,9 @@ export const Home: React.FC = () => {
                                 return (
                                     <IonCol sizeMd="2" sizeXs="12" key={index}>
                                         <IonCard >
-                                            {/* <div ></div> */}
-                                            <IonFab vertical="top" horizontal="end" slot="absolute">
-                                                <span>8</span>
-                                            </IonFab>
                                             <IonCardHeader
                                                 onClick={() => {
-
                                                     setShowActionSheet(true);
-
                                                     setIdCurrent(_._id);
                                                 }}>
                                                 <IonCardTitle>{_.name}</IonCardTitle>
@@ -144,10 +138,10 @@ export const Home: React.FC = () => {
                             handler: HandleUpdate
                         },
                         {
-                            text: 'Favorite',
+                            text: 'ver estadisticas',
                             icon: heart,
                             handler: () => {
-                                console.log('Favorite clicked');
+                                push("/app/statistics/"+ IdCurrent)
                             }
                         },
                         {

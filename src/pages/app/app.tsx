@@ -6,16 +6,26 @@ import AppFormProvider from "../../context/AppForms"
 import QuestionProvider from "../../context/QuestionForms"
 import ValideModify from "../segurity/ValideModify"
 import { IonModal } from "@ionic/react"
+import { PageStatistics } from "./statistics/statistics"
 export const AppMain: React.FC = () => {
 
     const { push } = useHistory()
-    
+
     return (
         <AppFormProvider>
             <Route
                 exact
                 path="/app/home"
                 component={Home}
+            />
+            <Route
+                exact
+                path="/app/statistics/:id"
+                render={() => (
+                    <ValideModify>
+                        <PageStatistics></PageStatistics>
+                    </ValideModify>
+                )}
             />
             <Route
                 exact
