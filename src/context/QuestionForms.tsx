@@ -1,4 +1,4 @@
-import React, {  createContext, PureComponent } from "react"
+import React, { createContext, PureComponent } from "react"
 import { withRouter } from "react-router-dom"
 import { db } from "../services/firebase"
 import { appFormContext } from "./AppForms"
@@ -46,15 +46,15 @@ class QuestionProvider extends PureComponent<any> {
     }
 
     componentWillUnmount() {
-        this.setState({ listQuestion: [], dataForm: undefined })
+        this.setState({ listQuestion: [], dataForm: {} })
     }
 
     addQuestion = async (payload: any) => {
 
-        await db.collection("question").add({ id_form: this.props.match.params.id, ...payload, time: Date.now() })
+        await db.collection("question").add({ id_form: this.props.match.params.id, ...payload, time: Date.now(), order: this.state.listQuestion.length + 1 })
+        await db.collection("form").doc(this.props.match.params.id).update({ nQuestion: this.state.listQuestion.length })
 
     }
-
 
     deleteQuestion = async (id: string) => {
 

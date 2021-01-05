@@ -12,6 +12,7 @@ export const Modify: React.FC = () => {
 
     const { addQuestion, initial, listQuestion } = useContext(questionContext);
 
+    const { id }: any = useParams();
 
     const [fetch, setFetch] = useState<boolean>(false)
 
@@ -44,107 +45,109 @@ export const Modify: React.FC = () => {
     }
 
     return (
-      
-     
-            <IonPage >
-                <HeaderModify />
-                <IonContent className="ion-padding">
 
-                    <IonCard >
-                        <IonCardHeader>
-                            <IonCardTitle>
-                                Agrega una pregunta:
+
+        <IonPage >
+            <HeaderModify />
+            <IonContent className="ion-padding">
+
+                <IonCard >
+                    <IonCardHeader>
+                        <IonCardTitle>
+                            Agrega una pregunta:
                                 </IonCardTitle>
-                        </IonCardHeader>
-                        <IonCardContent>
-                            <form onSubmit={(e) => {
-                                e.preventDefault()
-                                !fetch && HandleAddQuestion(e)
-                            }}>
-                                <IonItem>
-                                    <IonInput
-                                        placeholder="nombre?"
-                                        required
-                                        name="txtQuestion"
-                                    />
-                                </IonItem>
-                                <br />
-                                <IonButton expand="block"
-                                    type="submit"
-                                >
-                                    Ingresar
+                    </IonCardHeader>
+                    <IonCardContent>
+                        <form onSubmit={(e) => {
+                            e.preventDefault()
+                            !fetch && HandleAddQuestion(e)
+                        }}>
+                            <IonItem>
+                                <IonInput
+                                    placeholder="nombre?"
+                                    required
+                                    name="txtQuestion"
+                                />
+                            </IonItem>
+                            <br />
+                            <IonButton expand="block"
+                                type="submit"
+                            >
+                                Ingresar
                                     </IonButton>
-                            </form>
-                        </IonCardContent>
-                    </IonCard>
+                        </form>
+                    </IonCardContent>
+                </IonCard>
 
-                    <ListQuestion
-                        eliminar={(id: string) => {
-                            setCurrentId(id)
-                            setShowAlert2(true)
-                        }}
-                        editar={(id: string) => {
-                            setCurrentId(id)
-                            let dasd: any[] = listQuestion.filter(({ _id }) => _id == id)
-                            if (dasd) {
-                                setCurrentTxt(dasd[0].txtQuestion);
+                <ListQuestion
+                    eliminar={(id: string) => {
+                        setCurrentId(id)
+                        setShowAlert2(true)
+                    }}
+                    editar={(id: string) => {
+                        setCurrentId(id)
+                        let dasd: any[] = listQuestion.filter(({ _id }) => _id == id)
+                        if (dasd) {
+                            setCurrentTxt(dasd[0].txtQuestion);
+                        }
+                        setShowAlert3(true)
+                    }}
+                />
+
+                <IonAlert
+                    isOpen={showAlert3}
+                    onDidDismiss={() => { setShowAlert3(false); setCurrentId("") }}
+                    header={'Editar confirma?'}
+                    message={''}
+                    buttons={[
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            cssClass: 'secondary',
+                            handler: blah => {
+                                console.log('Confirm Cancel: blah');
                             }
-                            setShowAlert3(true)
-                        }}
-                    />
+                        },
+                        {
 
-                    <IonAlert
-                        isOpen={showAlert3}
-                        onDidDismiss={() => { setShowAlert3(false); setCurrentId("") }}
-                        header={'Editar confirma?'}
-                        message={''}
-                        buttons={[
-                            {
-                                text: 'Cancel',
-                                role: 'cancel',
-                                cssClass: 'secondary',
-                                handler: blah => {
-                                    console.log('Confirm Cancel: blah');
-                                }
+                            text: 'Okay',
+                            role: "ok",
+                            handler: (e: any) => {
+                                db.collection("question").doc(currentId).update({ txtQuestion: e.txtQuestion })
                             },
-                            {
+                        }
+                    ]}
 
-                                text: 'Okay',
-                                role: "ok",
-                                handler: (e: any) => {
-                                    db.collection("question").doc(currentId).update({ txtQuestion: e.txtQuestion })
-                                },
-                            }
-                        ]}
+                    inputs={[
+                        {
+                            type: "text",
+                            placeholder: "new valor",
+                            value: currentTxt,
+                            name: "txtQuestion"
 
-                        inputs={[
-                            {
-                                type: "text",
-                                placeholder: "new valor",
-                                value: currentTxt,
-                                name: "txtQuestion"
-
+                        }
+                    ]}
+                />
+                <IonAlert
+                    isOpen={showAlert2}
+                    onDidDismiss={() => { setShowAlert2(false); setCurrentId("") }}
+                    header={'elemina Confirm?'}
+                    message={'se elimina de forma permanente'}
+                    buttons={[
+                        "cancel",
+                        {
+                            text: 'Okay',
+                            role: "ok",
+                            handler: async () => {
+                                await db.collection("question").doc(currentId).delete()
+                                let { nQuestion }: any = (await db.collection("form").doc(id).get()).data()
+                                await db.collection("form").doc(id).update({ nQuestion: nQuestion - 1 })
                             }
-                        ]}
-                    />
-                    <IonAlert
-                        isOpen={showAlert2}
-                        onDidDismiss={() => { setShowAlert2(false); setCurrentId("") }}
-                        header={'elemina Confirm?'}
-                        message={'se elimina de forma permanente'}
-                        buttons={[
-                            "cancel",
-                            {
-                                text: 'Okay',
-                                role: "ok",
-                                handler: () => {
-                                    db.collection("question").doc(currentId).delete()
-                                }
-                            }
-                        ]}
-                    />
-                </IonContent>
-            </IonPage>
+                        }
+                    ]}
+                />
+            </IonContent>
+        </IonPage>
 
     )
 }

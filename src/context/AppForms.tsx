@@ -49,7 +49,7 @@ class AppFormProvider extends Component {
     create = async () => {
 
         let id_user = this.context.user.idUser;
-        let { id } = await db.collection("form").add({ id_user, name: "name form example", nFomsEnds: 0, public: true })
+        let { id } = await db.collection("form").add({ id_user, name: "name form example", nFomsEnds: 0, public: true , nQuestion: 0 })
         return id;
     }
 

@@ -46,7 +46,7 @@ export const ListPreguntas = () => {
                                     <IonCol key={index} size="12" className="ion-align-self-center">
                                         <IonCard>
                                             <IonCardContent>
-                                                <ItemQuery itemQuery={valor} />
+                                                <ItemQuery itemQuery={valor}  />
 
                                             </IonCardContent>
                                         </IonCard>

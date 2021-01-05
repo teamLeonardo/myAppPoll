@@ -6,8 +6,13 @@ import { db } from '../../../services/firebase'
 
 export const PageStatistics = () => {
     const [dataList, setDataList] = useState<any[]>([])
+    const [num, setNum] = useState(0)
     const { id }: any = useParams();
     useEffect(() => {
+        db.collection("form").doc(id).get().then((res) => {
+            let { nQuestion }: any = res.data()
+            setNum(nQuestion)
+        })
         db.collection("respuestas").where("id_form", "==", id).get().
             then((respuesta) => {
                 let newdata = respuesta.docs.map((doc) => ({ ...doc.data(), _id: doc.id }))
@@ -24,7 +29,7 @@ export const PageStatistics = () => {
             <IonContent fullscreen className="ion-padding">
                 <div>
                     {
-                        <ListRespuestas data={dataList} />
+                        <ListRespuestas data={dataList} numQuery={num} />
                     }
                 </div>
             </IonContent>

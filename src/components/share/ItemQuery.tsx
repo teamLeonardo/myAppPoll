@@ -9,8 +9,8 @@ export const ItemQuery = ({ itemQuery }: any) => {
                     itemQuery.txtQuestion
                 }
             </h2>
-            <IonInput type="text" name="pregunta" value={itemQuery.txtQuestion} style={{ display: "none" }} />
-            <IonInput type="text" name={"respuesta"} required />
+            <IonInput type="text" name={"pregunta" + itemQuery.order} value={itemQuery.txtQuestion} style={{ display: "none" }} />
+            <IonInput type="text" name={"respuesta" + itemQuery.order} required />
         </div>
     )
 }
