@@ -25,7 +25,10 @@ class ShareFormProvider extends Component<any> {
                 this.setState({ data: { ...newDatos, ...{ _id: datos.id } }, stateApp: true });
                 if (newDatos._id) {
                     let newArray = [];
-                    db.collection("question").where("id_form", "==", newDatos._id).onSnapshot(snap => {
+                    db.collection("question")
+                    .where("id_form", "==", newDatos._id)
+                    .orderBy("order", "desc")
+                    .onSnapshot(snap => {
                         newArray = snap.docs.map(doc => ({ _id: doc.id, ...doc.data() }))
                         this.setState({ dataQuery: newArray })
                     })

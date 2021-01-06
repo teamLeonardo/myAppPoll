@@ -33,7 +33,10 @@ class QuestionProvider extends PureComponent<any> {
             this.setState({ dataForm: newDataForm, initial: true })
             db.collection("question")
                 .where("id_form", "==", id_form)
+                .orderBy("order", "desc")
                 .onSnapshot((snap) => {
+                    console.log(snap.size);
+                    
                     let newArrat = snap.docs.map((doc) => ({
                         _id: doc.id, ...doc.data()
                     }))

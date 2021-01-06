@@ -38,8 +38,6 @@ class AppFormProvider extends Component {
 
     getList = async (id_form?: string) => {
         try {
-
-            console.log("get list  id_ form " + id_form);
             return (await db.collection("form").doc(id_form).get()).data()
         } catch (error) {
             console.log(error);
