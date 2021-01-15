@@ -1,6 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow } from '@ionic/react';
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useHistory, useParams } from 'react-router';
+import React, { useContext,  useState } from 'react'
+import {  useParams } from 'react-router';
 import { shareFormContex } from '../../context/share/shareFormContex'
 import { db } from '../../services/firebase';
 import { newToast } from '../newToast';
@@ -25,13 +25,6 @@ export const ListPreguntas = () => {
             newToast("error: " + error)
         }
     }
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         if ([...dataQuery].length <= 0) {
-    //             push("/app");
-    //         }z   
-    //     }, 3000);
-    // }, [])
 
 
     return (
