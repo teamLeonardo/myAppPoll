@@ -47,7 +47,6 @@ export const ListPreguntas = () => {
                                         <IonCard>
                                             <IonCardContent>
                                                 <ItemQuery itemQuery={valor}  />
-
                                             </IonCardContent>
                                         </IonCard>
                                     </IonCol>

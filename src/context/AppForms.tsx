@@ -21,17 +21,11 @@ class AppFormProvider extends Component {
 
 
     async componentDidMount() {
-
         let id = this.context.user.idUser;
         db.collection("form").where("id_user", "==", id).onSnapshot((snap) => {
             let newArray = snap.docs.map(doc => ({ _id: doc.id, ...doc.data() }))
             this.setState({ list: newArray })
         })
-        console.log((await db.collection("form").doc("kXxPsAsYqkmLm8QRAFxt").get()).data());
-
-        // (await db.collection("form").doc(id_form).get()).data()
-        // db.collection("form").doc("qri3khAj0hVYjkDexdrb55lzy3i2").
-
     }
 
 

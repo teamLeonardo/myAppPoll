@@ -8,10 +8,12 @@ const ExpanderItem = (props: any) => {
         for (let index = 1; index <= props.numQuery; index++) {
             const pre = props.data[`pregunta${index}`]
             const res = props.data[`respuesta${index}`]
-            newDataArray.push({ pre, res })
+            if (pre && res) {
+                newDataArray.push({ pre, res })
+            }
         }
         setDataTrans(newDataArray)
-    }, [props.data])
+    }, [props.data, props.numQuery])
     return <div>
         <IonList inset>
             <IonListHeader>
@@ -29,7 +31,8 @@ const ExpanderItem = (props: any) => {
                             </IonCol>
                         </IonRow>
                     </IonGrid>
-                </IonItem>)
+                </IonItem>
+                )
             }
         </IonList>
     </div>

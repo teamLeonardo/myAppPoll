@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { ListRespuestas } from '../../../components/estadisticas/ListRespuestas'
@@ -22,8 +22,11 @@ export const PageStatistics = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar>
+                <IonToolbar >
                     <IonTitle>Lista de respuestas </IonTitle>
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref="/app/home" />
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen className="ion-padding">
