@@ -5,19 +5,15 @@ const ExpanderItem = (props: any) => {
     const [dataTrans, setDataTrans] = useState<any[]>([])
     useEffect(() => {
         let newDataArray = [];
-        for (let index = 1; index <= props.numQuery; index++) {
-            const pre = props.data[`pregunta${index}`]
-            const res = props.data[`respuesta${index}`]
-            if (pre && res) {
-                newDataArray.push({ pre, res })
-            }
+        for (const key in props.data.DataForm) {
+            newDataArray.push({ pre: key, res: props.data.DataForm[key] })
         }
         setDataTrans(newDataArray)
     }, [props.data, props.numQuery])
     return <div>
         <IonList inset>
             <IonListHeader>
-                Preguantas
+                Questions
             </IonListHeader>
             {
                 dataTrans.map((value, index) => <IonItem key={index}>

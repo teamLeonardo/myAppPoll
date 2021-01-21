@@ -23,15 +23,15 @@ export const ItemQuery = ({ itemQuery }: any) => {
             {
                 itemQuery.type === "text" ?
                     <>
-                        <IonInput
+                        {/* <IonInput
                             type="text"
                             name={"pregunta" + itemQuery.order}
                             value={itemQuery.txtQuestion}
                             style={{ display: "none" }}
-                        />
+                        /> */}
                         <IonInput
                             type="text"
-                            name={"respuesta" + itemQuery.order}
+                            name={itemQuery.txtQuestion}
                             required
                         />
                     </>
@@ -39,17 +39,17 @@ export const ItemQuery = ({ itemQuery }: any) => {
                     itemQuery.type === "option"
                         ?
                         <IonList>
-                            <IonRadioGroup value={selected} onIonChange={e => setSelected(e.detail.value)}>
+                            <IonRadioGroup  value={selected} onIonChange={e => setSelected(e.detail.value)}>
 
-                                <IonInput
+                                {/* <IonInput
                                     type="text"
                                     name={"pregunta" + itemQuery.order}
                                     value={itemQuery.txtQuestion}
                                     style={{ display: "none" }}
-                                />
+                                /> */}
                                 <input
                                     type="hidden"
-                                    name={"respuesta" + itemQuery.order}
+                                    name={itemQuery.txtQuestion}
                                     value={selected}
                                 />
                                 {
