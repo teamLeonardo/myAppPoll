@@ -5,10 +5,12 @@ import { db } from '../../services/firebase';
 import { useParams } from 'react-router';
 export const ChartsView = ({ data }: any) => {
 
-    const [gender, setGender] = useState<string>();
-    const [type, setType] = useState<string>();
-    const [question, setQuestion] = useState<string>();
+    const [type, setType] = useState<string>("bar");
 
+    const [orderData, setOrderData] = useState<any[]>([])
+
+    const [selectQ, setSelectQ] = useState<any>(0)
+    // const []
     const refCanvas = useRef<any>()
 
     const { id }: any = useParams();
@@ -39,14 +41,16 @@ export const ChartsView = ({ data }: any) => {
             newarray.push({ order, txtQuestion, option })
         }
 
+        setOrderData(newarray)
         console.log([...newarray[0].option].map(d => d.opt), newarray);
 
         new Chart(ctx, {
-            type: 'bar',
+            type: type,
             data: {
-                labels: [...newarray[0].option].map(d => d.opt),
+                labels: [...newarray[selectQ].option].map(d => d.opt),
                 datasets: [{
-                    data: [...newarray[0].option].map(d => d.conta),
+                    label: '# of Votes',
+                    data: [...newarray[selectQ].option].map(d => d.conta),
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
@@ -67,21 +71,30 @@ export const ChartsView = ({ data }: any) => {
     useEffect(() => {
 
         render()
-    }, [])
+    }, [type, selectQ])
     return (
         <>
-            <br />
-            <IonSelect value={gender} placeholder="Select type chart" onIonChange={e => setGender(e.detail.value)}>
-                <IonSelectOption value="female">Female</IonSelectOption>
-                <IonSelectOption value="male">Male</IonSelectOption>
-            </IonSelect>
-            <br />
-            <IonSelect value={gender} placeholder="Select Question" onIonChange={e => setGender(e.detail.value)}>
-                <IonSelectOption value="female">Female</IonSelectOption>
-                <IonSelectOption value="male">Male</IonSelectOption>
-            </IonSelect>
-            <br />
-            <canvas ref={refCanvas} style={{ width: '100%', maxWidth: "350px", maxHeight: "450px" }} />
+            {
+                (data && [...data].length) ?
+                    <>
+
+                        <br />
+                        <IonSelect value={type} placeholder="Select type chart" onIonChange={e => setType(e.detail.value)}>
+                            {["bar", "horizontalBar", "pie", "line", "doughnut", "radar", "polarArea"].map((value, index) => <IonSelectOption key={index} value={value}>{value}</IonSelectOption>)}
+
+                        </IonSelect>
+                        <br />
+                        <IonSelect value={selectQ} placeholder="Select Question" onIonChange={e => setSelectQ(Number(e.detail.value))}>
+                            {orderData.map((value, index) => <IonSelectOption key={index} value={index}>{value.txtQuestion}</IonSelectOption>)}
+
+                        </IonSelect>
+                        <br />
+                        <canvas ref={refCanvas} style={{ width: '100%', maxWidth: "350px", maxHeight: "450px" }} />
+                    </> :
+                    <div>
+                        no hay datos
+            </div>
+            }
         </>
     )
 }
